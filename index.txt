@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Telegram Mini App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { font-family: Arial; text-align: center; padding: 20px; }
+        button { padding: 10px 15px; background: #0088cc; color: white; border: none; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Привет, <span id="username">гость</span>!</h1>
+    <button onclick="sendData()">Отправить данные боту</button>
+    
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Раскрыть на весь экран
+        
+        // Показываем имя пользователя
+        document.getElementById('username').textContent = tg.initDataUnsafe.user?.first_name || "гость";
+        
+        // Отправка данных боту
+        function sendData() {
+            tg.sendData(JSON.stringify({ action: "button_click" }));
+            tg.close(); // Закрыть WebApp
+        }
+    </script>
+</body>
+</html>
