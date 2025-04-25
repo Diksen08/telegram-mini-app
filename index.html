@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мое Telegram Mini App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #0088cc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        button:hover {
+            background: #0077bb;
+        }
+        .user-info {
+            margin: 20px 0;
+            padding: 10px;
+            background: #f0f8ff;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Добро пожаловать!</h1>
+        
+        <div class="user-info">
+            <p id="user-data">Загрузка данных...</p>
+        </div>
+        
+        <button id="main-button">Нажми меня</button>
+        <button id="close-button">Закрыть</button>
+        
+        <p id="output"></p>
+    </div>
+
+    <script>
+        // Инициализация Telegram WebApp
+        const tg = window.Telegram.WebApp;
+        
+        // Развернуть приложение на весь экран
+        tg.expand();
+        
+        // Показать данные пользователя
+        const user = tg.initDataUnsafe.user;
+        const userDataElement = document.getElementById('user-data');
+        
+        if (user) {
+            userDataElement.innerHTML = `
+                <strong>Привет, ${user.first_name || 'пользователь'}!</strong><br>
+                ID: ${user.id}<br>
+                Username: @${user.username || 'не указан'}
+            `;
+        } else {
+            userDataElement.textContent = 'Не удалось загрузить данные пользователя';
+        }
+        
+        // Обработка кнопок
+        document.getElementById('main-button').addEventListener('click', () => {
+            document.getElementById('output').textContent = 'Кнопка нажата!';
+            // Можно отправить данные боту:
+            // tg.sendData(JSON.stringify({action: "button_click"}));
+        });
+        
+        document.getElementById('close-button').addEventListener('click', () => {
+            tg.close();
+        });
+        
+        // Можно использовать другие методы Telegram WebApp:
+        // tg.setHeaderColor('#00ff00');
+        // tg.enableClosingConfirmation();
+    </script>
+</body>
+</html>
